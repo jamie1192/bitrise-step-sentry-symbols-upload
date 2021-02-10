@@ -1,0 +1,100 @@
+title: |-
+  Sentry Symbols Upload
+summary: |
+  Upload your dSYM and Proguard mappings to Sentry
+description: |
+  A Flutter-focused step to submit your debug symbols to Sentry
+website: https://github.com/jamie1192/bitrise-step-sentry-symbols-upload
+source_code_url: https://github.com/jamie1192/bitrise-step-sentry-symbols-upload
+support_url: https://github.com/jamie1192/bitrise-step-sentry-symbols-upload/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+# Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
+# You can find more information about type tags in the Step Development Guideline:
+# https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+type_tags:
+  - utility
+
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+    - name: getsentry/tools/sentry-cli
+
+toolkit:
+  go:
+    package_name: github.com/jamie1192/bitrise-step-sentry-symbols-upload
+
+inputs:
+  - platform: both
+    opts:
+      title: "Platform"
+      summary: "The selected platform that symbols will be uploaded for, or both iOS and Android"
+      description: "The selected platform that symbols will be uploaded for, or both iOS and Android"
+      is_required: true
+      value_options:
+        - "both"
+        - "ios"
+        - "android"
+  - is_debug_mode: "false"
+    opts:
+      title: "Debug mode?"
+      summary: "If debug mode is enabled, the step will print verbose logs"
+      description: |-
+        If debug mode is enabled, the step will print verbose logs
+      is_required: true
+      value_options:
+        - "true"
+        - "false"
+  - auth_token:
+    opts:
+      title: Auth token for your Sentry user account
+      summary: Auth token for your Sentry user account. Required to upload symbols.
+      description: |
+        "Auth token can be created on Sentry via Settings > Account > API > Auth Tokens"
+      is_required: true
+      is_expand: true
+      is_sensitive: true
+
+  - sentry_url: https://sentry.io/
+    opts:
+      title: Server URL for Sentry
+      description: |
+        Fully qualified URL to the Sentry server.
+        [defaults to https://sentry.io/]
+      is_required: true
+
+  - org_slug:
+    opts:
+      title: Organisation slug
+      summary: "Organisation slug for your Sentry organisation"
+      is_required: true
+      is_expand: true
+      is_sensitive: true
+
+  - project_slug:
+    opts:
+      title: Project slug
+      summary: "Project slug for your Sentry project"
+      is_required: true
+      is_expand: true
+      is_sensitive: true
+
+  - dsym_path:
+    opts:
+      title: dSYM path
+      summary: "Path to your dSYM"
+      is_expand: true
+      is_sensitive: true
+
+  - proguard_mapping_path:
+    opts:
+      title: Proguard mapping.txt path
+      summary: "Path to your Proguard mapping.txt"
+      is_expand: true
+      is_sensitive: true
